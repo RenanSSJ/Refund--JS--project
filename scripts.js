@@ -4,6 +4,9 @@ const amount = document.getElementById("amount")
 const expense = document.getElementById("expense")
 const category = document.getElementById("category")
 
+//select list elements
+const expenseList = document.querySelector("ul")
+
 //Capture event and adjust value
 amount.oninput = () => {
   let value = amount.value.replace(/\D/g, "")
@@ -48,6 +51,36 @@ function expenseAdd(newExpense) {
     //add class to the li
     expenseItem.classList.add("expense")
 
+    //add the category icon
+    const expenseIcon = document.createElement("img")
+    expenseIcon.setAttribute("src", `img/${newExpense.category_id}.svg`)
+    expenseIcon.setAttribute("alt", newExpense.category_name)
+
+    //add info to expense
+    const expenseInfo = document.createElement("div")
+    expenseInfo.classList.add("expense-info")
+
+    //add name to expense
+    const expenseName = document.createElement("strong")
+    expenseName.textContent = newExpense.expense
+
+    //Add expense category
+    const expenseCategory = document.createElement("span")
+    expenseCategory.textContent = newExpense.category_name
+ 
+    //add name and category to expense info
+    expenseInfo.append(expenseName, expenseCategory)
+
+    //add expense amount
+    const expenseAmount = document.createElement("span")
+    expenseAmount.classList.add("expense-amount")
+    expenseAmount.innerHTML = `<small>R$</small>${newExpense.amount.toUpperCase().replace("R$", "")}`
+
+    //add information to item
+    expenseItem.append(expenseIcon, expenseInfo, expenseAmount)
+
+    //add item to the list  
+    expenseList.append(expenseItem)
 
   } catch (error) {
     alert("Erro: Não foi possível atualizar a lista de despesas")
